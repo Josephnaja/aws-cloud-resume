@@ -74,6 +74,10 @@ aws s3 cp "$PROJECT_DIR/index.html" "s3://$BUCKET/index.html" --region "$REGION"
 aws s3 cp "$PROJECT_DIR/style.css" "s3://$BUCKET/style.css" --region "$REGION"
 aws s3 cp "$PROJECT_DIR/script.js" "s3://$BUCKET/script.js" --region "$REGION"
 aws s3 cp "$PROJECT_DIR/photo.jpeg" "s3://$BUCKET/photo.jpeg" --region "$REGION"
+aws s3 cp "$PROJECT_DIR/AWS Certified Solutions Architect - Professional.png" "s3://$BUCKET/AWS Certified Solutions Architect - Professional.png" --region "$REGION"
+aws s3 cp "$PROJECT_DIR/AWS Certified Solutions Architect - Associate.png" "s3://$BUCKET/AWS Certified Solutions Architect - Associate.png" --region "$REGION"
+aws s3 cp "$PROJECT_DIR/AWS Certified Cloud Practitioner.png" "s3://$BUCKET/AWS Certified Cloud Practitioner.png" --region "$REGION"
+aws s3 cp "$PROJECT_DIR/ITIL4 Foundation.png" "s3://$BUCKET/ITIL4 Foundation.png" --region "$REGION"
 
 # ============ 7. Invalidate CloudFront cache ============
 echo "🔄 Invalidating CloudFront cache..."
