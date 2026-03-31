@@ -10,6 +10,8 @@ Build a personal resume website that's not just a static page — it needs to be
 
 The site uses a fully serverless architecture on AWS:
 
+![Cloud Resume Challenge Architecture](/architecture.png)
+
 - **S3** hosts the static files (HTML, CSS, JS, images)
 - **CloudFront** serves them globally with HTTPS
 - **Route 53** manages the custom domain
