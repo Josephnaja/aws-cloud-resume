@@ -14,6 +14,7 @@
       <a href="#" class="nav-link" data-tab="resume">Resume</a>
       <a href="#" class="nav-link" data-tab="projects">Projects</a>
       <a href="#" class="nav-link" data-tab="certifications">Certifications</a>
+      <a href="#" class="nav-link" data-tab="blog">Blog</a>
     </div>
   </nav>
 
@@ -243,10 +244,23 @@
     </div>
   </section>
 
+  <!-- BLOG TAB -->
+  <section id="blog" class="tab-content">
+    <div class="blog-container">
+      <h2>Blog</h2>
+      <div id="blog-list" class="blog-list"></div>
+      <div id="blog-post" class="blog-post" style="display:none;">
+        <button id="blog-back" class="blog-back-btn">← Back to posts</button>
+        <div id="blog-content"></div>
+      </div>
+    </div>
+  </section>
+
   <footer>
     <p>&copy; 2026 Joseph Edaman Naja. All rights reserved.</p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

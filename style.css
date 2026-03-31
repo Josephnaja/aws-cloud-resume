@@ -118,6 +118,41 @@ nav {
 }
 .cert-link:hover { background: var(--accent); color: var(--primary); }
 
+/* BLOG */
+.blog-container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+.blog-container > h2 { color: var(--primary); margin-bottom: 2rem; font-size: 1.8rem; }
+.blog-list { display: flex; flex-direction: column; gap: 1.2rem; }
+.blog-card {
+  background: var(--white); padding: 1.5rem 2rem; border-radius: 10px;
+  border-left: 4px solid var(--accent); cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.blog-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+.blog-card h3 { color: var(--primary); margin-bottom: 0.3rem; }
+.blog-date { color: #666; font-size: 0.85rem; margin-bottom: 0.5rem; }
+.blog-summary { color: #555; line-height: 1.5; margin-bottom: 0.5rem; }
+.blog-read-more { color: var(--accent); font-weight: 600; font-size: 0.9rem; }
+.blog-back-btn {
+  background: none; border: 1px solid var(--accent); color: var(--accent);
+  padding: 0.4rem 1rem; border-radius: 20px; cursor: pointer;
+  font-size: 0.9rem; font-weight: 600; margin-bottom: 1.5rem;
+  transition: all 0.3s;
+}
+.blog-back-btn:hover { background: var(--accent); color: var(--primary); }
+.blog-post h1 { color: var(--primary); font-size: 1.8rem; margin-bottom: 0.5rem; }
+.blog-post h2 { color: var(--primary); font-size: 1.4rem; margin: 1.5rem 0 0.8rem; border-bottom: 2px solid var(--accent); padding-bottom: 0.3rem; }
+.blog-post h3 { color: var(--primary); font-size: 1.1rem; margin: 1.2rem 0 0.5rem; }
+.blog-post p { line-height: 1.7; margin-bottom: 1rem; color: #444; }
+.blog-post ul, .blog-post ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+.blog-post li { line-height: 1.6; margin-bottom: 0.3rem; }
+.blog-post code { background: #e8ecf1; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9rem; }
+.blog-post pre { background: var(--primary); color: #e0e0e0; padding: 1.2rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1rem; }
+.blog-post pre code { background: none; padding: 0; color: inherit; }
+.blog-post a { color: var(--accent); text-decoration: none; }
+.blog-post a:hover { text-decoration: underline; }
+.blog-post img { max-width: 100%; border-radius: 8px; margin: 1rem 0; }
+.blog-post blockquote { border-left: 4px solid var(--accent); padding: 0.5rem 1rem; margin: 1rem 0; background: var(--white); border-radius: 0 8px 8px 0; }
+
 /* FOOTER */
 footer { text-align: center; padding: 1.5rem; background: var(--primary); color: #888; font-size: 0.9rem; }
 
