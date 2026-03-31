@@ -180,9 +180,12 @@
       <article class="project-card">
         <h3>WordPress Application Deployment</h3>
         <div class="project-tags">
-          <span>EC2</span><span>RDS</span><span>Route 53</span><span>Load Balancing</span><span>Auto Scaling</span>
+          <span>VPC</span><span>EC2</span><span>RDS</span><span>EFS</span><span>ALB</span><span>Auto Scaling</span><span>Route 53</span><span>ACM</span><span>NAT Gateway</span>
         </div>
-        <p>Deployed a highly-available WordPress application on AWS using EC2, RDS, and Route 53 with load balancing and auto-scaling. This architecture ensures high availability, fault tolerance, and automatic scaling to handle varying traffic loads.</p>
+        <p>Designed and deployed a highly available WordPress application for a medium-sized business on AWS. The architecture spans two Availability Zones with a VPC containing public and private subnets. An Application Load Balancer distributes traffic to EC2 instances running in an Auto Scaling group across private subnets. Amazon RDS (Multi-AZ) provides a managed, fault-tolerant MySQL database, while Amazon EFS provides shared storage for WordPress media files across all instances. NAT Gateways in the public subnets enable outbound internet access for the private instances. Route 53 handles DNS routing and ACM provides HTTPS encryption.</p>
+        <div class="project-architecture">
+          <img src="web application architecture.png" alt="WordPress Application Deployment Architecture Diagram" class="architecture-img">
+        </div>
       </article>
 
       <!-- Template for future projects -->
