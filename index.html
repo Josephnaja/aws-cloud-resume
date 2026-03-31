@@ -168,9 +168,12 @@
       <article class="project-card">
         <h3>AWS Cloud Resume Challenge</h3>
         <div class="project-tags">
-          <span>S3</span><span>CloudFront</span><span>Route 53</span><span>DynamoDB</span><span>Lambda</span>
+          <span>S3</span><span>CloudFront</span><span>Route 53</span><span>DynamoDB</span><span>Lambda</span><span>API Gateway</span><span>CloudFormation</span><span>GitHub Actions</span>
         </div>
-        <p>Deployed a personal resume website in AWS S3, CloudFront, and Route 53, with DynamoDB and Lambda for a full-stack AWS solution. This project demonstrates end-to-end cloud architecture including static website hosting, CDN distribution, DNS management, serverless backend, and database integration.</p>
+        <p>Built and deployed a full-stack serverless personal website on AWS. Static files are hosted in S3 and served globally through CloudFront with a custom domain and HTTPS via ACM. A visitor counter is powered by a Lambda function (Python) backed by DynamoDB, exposed through API Gateway and routed via CloudFront. The entire infrastructure is defined as code using CloudFormation and deployed with a single script. A GitHub Actions CI/CD pipeline automatically syncs website updates to S3 and invalidates the CloudFront cache on every push to main.</p>
+        <div class="project-architecture">
+          <img src="architecture.png" alt="AWS Cloud Resume Challenge Architecture Diagram" class="architecture-img">
+        </div>
       </article>
 
       <article class="project-card">

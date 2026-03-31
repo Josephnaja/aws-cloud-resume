@@ -4,62 +4,26 @@
 
 This project is a complete implementation of the [Cloud Resume Challenge](https://cloudresumechallenge.dev/), a hands-on project that demonstrates real-world cloud engineering skills by building and deploying a personal resume website entirely on AWS. The website is live at **[josephnaja.com](https://josephnaja.com)**.
 
-The challenge goes far beyond simple static hosting — it requires integrating multiple AWS services into a cohesive, production-grade architecture that includes a custom domain with HTTPS, a global CDN, a serverless API backend, a NoSQL database, and Infrastructure as Code (IaC) for fully automated deployments.
+The challenge goes far beyond simple static hosting — it requires integrating multiple AWS services into a cohesive, production-grade architecture that includes a custom domain with HTTPS, a global CDN, a serverless API backend, a NoSQL database, Infrastructure as Code (IaC), and a CI/CD pipeline for fully automated deployments.
 
 ---
 
 ## Architecture
 
-```
-                         ┌─────────────────────────────────────────────┐
-                         │              Route 53 (DNS)                 │
-                         │     josephnaja.com → CloudFront Alias       │
-                         │ www.josephnaja.com → CloudFront Alias       │
-                         └────────────────┬────────────────────────────┘
-                                          │
-                                          ▼
-                         ┌─────────────────────────────────────────────┐
-                         │         CloudFront Distribution             │
-                         │    ┌─────────────────────────────────┐      │
-                         │    │  ACM Certificate (TLS/HTTPS)    │      │
-                         │    │  josephnaja.com + www subdomain │      │
-                         │    └─────────────────────────────────┘      │
-                         │                                             │
-                         │  Default: /*  ──────►  S3 Origin (OAC)     │
-                         │  Cache:   /api/* ───►  API Gateway Origin  │
-                         └──────┬──────────────────────┬───────────────┘
-                                │                      │
-                    ┌───────────▼──────────┐  ┌────────▼──────────────┐
-                    │   S3 Bucket          │  │  API Gateway (HTTP)   │
-                    │   (Static Website)   │  │  GET /api/counter     │
-                    │                      │  └────────┬──────────────┘
-                    │  index.html          │           │
-                    │  style.css           │           ▼
-                    │  script.js           │  ┌────────────────────────┐
-                    │  photo.jpeg          │  │  Lambda Function       │
-                    └──────────────────────┘  │  (Python 3.12)         │
-                                              │  visitor_counter.py    │
-                                              └────────┬───────────────┘
-                                                       │
-                                                       ▼
-                                              ┌────────────────────────┐
-                                              │  DynamoDB Table        │
-                                              │  visitor-counter       │
-                                              │  PK: id = "visitors"   │
-                                              │  visit_count: Number   │
-                                              └────────────────────────┘
-```
+![Architecture Diagram](architecture.png)
 
 ### How It Works
 
-1. A user visits **josephnaja.com**
-2. **Route 53** resolves the domain to the **CloudFront** distribution
-3. **CloudFront** serves the static files (HTML, CSS, JS, image) from the **S3** bucket over HTTPS using an **ACM** certificate
-4. The browser executes `script.js`, which calls `/api/counter`
-5. CloudFront routes `/api/*` requests to **API Gateway**
-6. API Gateway triggers the **Lambda** function
-7. Lambda increments the visitor count in **DynamoDB** and returns the updated count
-8. The visitor count is displayed on the homepage
+1. A developer pushes code to the **GitHub** repository
+2. **GitHub Actions** automatically syncs website files to **S3** and invalidates the **CloudFront** cache
+3. A user visits **josephnaja.com**
+4. **Route 53** resolves the domain to the **CloudFront** distribution
+5. **CloudFront** serves the static files (HTML, CSS, JS, images) from the **S3** bucket over HTTPS using an **ACM** certificate
+6. The browser executes `script.js`, which calls `/api/counter`
+7. CloudFront routes `/api/*` requests to **API Gateway**
+8. API Gateway triggers the **Lambda** function
+9. Lambda increments the visitor count in **DynamoDB** and returns the updated count
+10. The visitor count is displayed on the homepage
 
 ---
 
@@ -74,8 +38,27 @@ The challenge goes far beyond simple static hosting — it requires integrating 
 | **API Gateway (HTTP API)** | Exposes a RESTful endpoint for the visitor counter |
 | **Lambda** | Serverless function that handles the visitor count logic |
 | **DynamoDB** | NoSQL database storing the visitor count |
-| **IAM** | Manages permissions for Lambda to access DynamoDB and for CloudFront to access S3 |
+| **IAM** | Manages permissions for Lambda, CloudFront, and the CI/CD pipeline |
 | **CloudFormation** | Infrastructure as Code — defines and deploys the entire stack |
+
+---
+
+## CI/CD Pipeline
+
+The project uses **GitHub Actions** to automate deployments. Every push to the `main` branch triggers the pipeline, which:
+
+1. **Syncs website files to S3** — uploads only changed files and removes deleted ones
+2. **Invalidates the CloudFront cache** — ensures visitors see the latest version immediately
+
+The pipeline uses a dedicated IAM user with least-privilege permissions scoped to only the S3 bucket and CloudFront distribution. AWS credentials are stored securely as GitHub repository secrets.
+
+```yaml
+on:
+  push:
+    branches: [main]
+```
+
+This means any code change merged to `main` is live within seconds — no manual deployment needed.
 
 ---
 
@@ -86,12 +69,16 @@ The challenge goes far beyond simple static hosting — it requires integrating 
 ├── style.css                     # Styling with responsive design
 ├── script.js                     # Tab navigation + visitor counter API call
 ├── photo.jpeg                    # Profile photo
+├── architecture.png              # Architecture diagram
 ├── lambda/
 │   ├── visitor_counter.py        # Lambda function (Python 3.12)
 │   └── package.py                # Packaging script to create Lambda deployment zip
 ├── infrastructure/
 │   ├── template.yaml             # CloudFormation template (entire stack)
 │   └── deploy.sh                 # One-command deployment script
+├── .github/
+│   └── workflows/
+│       └── deploy.yml            # GitHub Actions CI/CD pipeline
 └── PROJECT_DOCUMENTATION.md      # This file
 ```
 
@@ -105,7 +92,7 @@ The website is a single-page application with tab-based navigation, built with v
 - **Home** — Hero section with profile photo, title, social links, and live visitor counter
 - **Resume** — Full professional resume with experience, education, skills, and certifications
 - **Projects** — Showcase of hands-on AWS projects
-- **Certifications** — AWS and ITIL certifications with links to Credly credentials
+- **Certifications** — AWS and ITIL certifications with badge images and links to Credly credentials
 
 ### Visitor Counter
 The homepage displays a real-time visitor count. When the page loads, JavaScript makes a `fetch` call to `/api/counter`. CloudFront routes this to API Gateway, which triggers the Lambda function. The count is incremented atomically in DynamoDB and returned to the browser.
@@ -182,18 +169,19 @@ The entire infrastructure is defined in a single CloudFormation template (`infra
 - TLS minimum version is **TLSv1.2_2021**
 - Lambda IAM role follows **least privilege** — only the specific DynamoDB actions needed
 - CORS restricts API access to the **specific domain only**
+- CI/CD IAM user has **scoped permissions** — only S3 and CloudFront actions on specific resources
 
 ---
 
 ## Deployment
 
-### Prerequisites
+### Initial Stack Deployment
+
+Prerequisites:
 - AWS CLI configured with appropriate credentials
 - Python 3.x installed
 - A Route 53 hosted zone for your domain
 - An S3 bucket for Lambda deployment artifacts
-
-### One-Command Deploy
 
 ```bash
 bash infrastructure/deploy.sh
@@ -205,8 +193,20 @@ The script performs these steps automatically:
 2. **Upload Lambda zip** — Copies the zip to the Lambda artifacts S3 bucket
 3. **Deploy CloudFormation** — Creates/updates the entire stack
 4. **Seed DynamoDB** — Initializes the visitor counter (skips if already seeded)
-5. **Upload website files** — Copies HTML, CSS, JS, and image to the website S3 bucket
+5. **Upload website files** — Copies HTML, CSS, JS, and images to the website S3 bucket
 6. **Invalidate CloudFront cache** — Ensures visitors see the latest version
+
+### Ongoing Deployments (CI/CD)
+
+After the initial stack is deployed, all website updates are handled automatically by GitHub Actions. Simply push to `main`:
+
+```bash
+git add .
+git commit -m "Update website"
+git push origin main
+```
+
+GitHub Actions will sync the files to S3 and invalidate the CloudFront cache. No manual intervention needed.
 
 ### First Deploy Note
 
@@ -220,20 +220,17 @@ Subsequent deployments (updates) are much faster.
 
 ## Challenges and Lessons Learned
 
-### 1. Lambda Packaging on Windows
-The standard `zip` command isn't available in all Windows bash environments. The solution was to use a standalone Python script (`lambda/package.py`) that creates a valid zip file cross-platform using Python's built-in `zipfile` module.
+### 1. Cross-Platform Lambda Packaging
+The standard `zip` command isn't available in all Windows bash environments, causing Lambda deployment failures with "Could not unzip uploaded file" errors. The solution was to create a standalone Python packaging script (`lambda/package.py`) that uses Python's built-in `zipfile` module, making the build process cross-platform.
 
-### 2. Path Resolution in Shell Scripts
-Windows bash handles path resolution differently than Linux/macOS. Using `$PROJECT_DIR` with `s3 sync` caused silent failures. The fix was switching to explicit `s3 cp` commands for each file, which is more reliable and provides clearer output.
+### 2. Shell Path Resolution on Windows
+Windows bash handles path resolution differently than Linux/macOS. Using shell variable interpolation inside inline Python scripts and `s3 sync` commands caused silent failures where files appeared to upload but never reached S3. The fix was switching to explicit `s3 cp` commands and a standalone Python script for Lambda packaging, avoiding path interpolation issues entirely.
 
-### 3. File Extension Mismatch
-The profile photo was saved as `photo.jpeg` but referenced as `photo.jpg` in the HTML. A subtle but common issue — always verify that file references match the actual filenames exactly.
+### 3. CloudFront Origin Access Control (OAC)
+Instead of enabling S3 static website hosting (which requires public access), the architecture uses CloudFront Origin Access Control (OAC) to keep the bucket fully private. This is the AWS-recommended approach, replacing the older Origin Access Identity (OAI) method, and provides better security by ensuring only CloudFront can access the S3 bucket.
 
-### 4. CloudFront + S3 Security
-Instead of enabling S3 static website hosting (which requires public access), the architecture uses CloudFront Origin Access Control (OAC) to keep the bucket fully private. This is the AWS-recommended approach and provides better security.
-
-### 5. Single-Page App Routing
-CloudFront custom error responses are configured to return `index.html` for both 403 and 404 errors. This ensures that tab-based navigation works correctly even if a user refreshes on a specific tab.
+### 4. Single-Page App Routing with CloudFront
+CloudFront custom error responses are configured to return `index.html` for both 403 and 404 errors. This ensures that tab-based navigation works correctly even if a user refreshes on a specific tab or accesses a non-existent path.
 
 ---
 
@@ -249,6 +246,7 @@ This architecture is designed to be extremely cost-effective:
 | DynamoDB | Free tier covers 25 RCU/WCU |
 | Route 53 | $0.50/month per hosted zone |
 | ACM | Free |
+| GitHub Actions | Free for public repos |
 
 **Estimated total: ~$0.50–$1.00/month** for a personal website with moderate traffic.
 
@@ -256,17 +254,17 @@ This architecture is designed to be extremely cost-effective:
 
 ## Future Improvements
 
-- Add CI/CD with GitHub Actions for automatic deployments on push
 - Add a blog section with markdown-to-HTML rendering
 - Implement visitor analytics (unique visitors, page views by tab)
 - Add dark mode toggle
 - Integrate contact form with SES (Simple Email Service)
+- Add automated testing to the CI/CD pipeline
 
 ---
 
 ## About
 
-Built by **Joseph Edaman Naja** as part of the AWS Cloud Resume Challenge, demonstrating end-to-end cloud architecture, serverless development, and Infrastructure as Code.
+Built by **Joseph Edaman Naja** as part of the AWS Cloud Resume Challenge, demonstrating end-to-end cloud architecture, serverless development, Infrastructure as Code, and CI/CD automation.
 
 - Website: [josephnaja.com](https://josephnaja.com)
 - LinkedIn: [linkedin.com/in/josephnaja](https://linkedin.com/in/josephnaja)
