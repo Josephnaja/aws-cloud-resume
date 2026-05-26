@@ -91,6 +91,13 @@ nav {
 .project-card p { line-height: 1.6; color: #555; }
 .project-architecture { margin-top: 1rem; }
 .architecture-img { width: 100%; border-radius: 8px; border: 1px solid #e0e0e0; }
+.project-blog-link {
+  display: inline-block; margin-top: 1rem; color: var(--accent); text-decoration: none;
+  font-weight: 600; font-size: 0.9rem; padding: 0.4rem 1rem;
+  border: 1px solid var(--accent); border-radius: 20px;
+  transition: all 0.3s;
+}
+.project-blog-link:hover { background: var(--accent); color: var(--primary); }
 
 /* CERTIFICATIONS */
 .certs-container { max-width: 900px; margin: 0 auto; padding: 2rem; }

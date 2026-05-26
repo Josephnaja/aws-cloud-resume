@@ -176,6 +176,19 @@
         <div class="project-architecture">
           <img src="architecture.png" alt="AWS Cloud Resume Challenge Architecture Diagram" class="architecture-img">
         </div>
+        <a href="#" class="project-blog-link" data-blog="cloud-resume-challenge">📖 Read blog post →</a>
+      </article>
+
+      <article class="project-card">
+        <h3>Secure Multi-Account AWS Landing Zone for Banking</h3>
+        <div class="project-tags">
+          <span>Terraform</span><span>AWS Organizations</span><span>Transit Gateway</span><span>KMS</span><span>Security Hub</span><span>GuardDuty</span><span>CloudTrail</span><span>Direct Connect</span><span>S3 Object Lock</span><span>IAM Identity Center</span>
+        </div>
+        <p>Designed and implemented a production-grade AWS Landing Zone for French banking institutions subject to DORA and RGPD regulations. The architecture provisions seven dedicated accounts across four OUs, with centralized security monitoring, immutable audit logging (365-day S3 Object Lock), hub-and-spoke networking via Transit Gateway with route table segmentation, dual-path hybrid connectivity (Direct Connect + VPN), and cross-region disaster recovery (RTO 4h, RPO 1h). Six Service Control Policies enforce compliance guardrails including region restriction, encryption enforcement, and service allowlisting. The entire infrastructure is codified in 10 reusable Terraform modules with a simulation mode for single-account testing.</p>
+        <div class="project-architecture">
+          <img src="blog/aws-landing-zone-org.png" alt="AWS Landing Zone Organizations Architecture" class="architecture-img">
+        </div>
+        <a href="#" class="project-blog-link" data-blog="aws-landing-zone-banking">📖 Read blog post →</a>
       </article>
 
       <article class="project-card">
