@@ -17,7 +17,7 @@ Rather than retrofitting compliance onto individual applications, I built a land
 
 The landing zone uses AWS Organizations with seven dedicated accounts across four Organizational Units:
 
-![AWS Organizations Architecture](aws-landing-zone-org.png)
+![AWS Organizations Architecture](blog/aws-landing-zone-org.png)
 
 **Key design choices:**
 - **Management Account** — hosts Organizations, SCPs, IAM Identity Center, and KMS/Encryption
@@ -30,7 +30,7 @@ The landing zone uses AWS Organizations with seven dedicated accounts across fou
 
 All traffic flows through a hub-and-spoke topology with Transit Gateway at the center:
 
-![Network Architecture - Primary and DR Regions](aws-landing-zone-network.png)
+![Network Architecture - Primary and DR Regions](blog/aws-landing-zone-network.png)
 
 **Key elements:**
 - **Dual-path hybrid connectivity** — Direct Connect (primary) and Site-to-Site VPN (backup) with automatic BGP failover
