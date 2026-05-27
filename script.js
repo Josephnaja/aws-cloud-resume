@@ -29,6 +29,13 @@ updateVisitorCount();
 // To add a new post: create a .md file in blog/ and add an entry here.
 const blogPosts = [
   {
+    slug: 'aws-landing-zone-banking',
+    title: 'Secure Multi-Account AWS Landing Zone for French Banking Compliance',
+    date: '2026-05-27',
+    summary: 'How I designed and implemented a multi-account landing zone with DORA and RGPD compliance, Transit Gateway networking, immutable audit logging, and cross-region disaster recovery.',
+    file: 'blog/aws-landing-zone-banking.md'
+  },
+  {
     slug: 'cloud-resume-challenge',
     title: 'How I Built My Cloud Resume on AWS',
     date: '2026-03-31',
@@ -83,3 +90,18 @@ document.getElementById('blog-back').addEventListener('click', showBlogList);
 
 // Initialize blog list on page load
 showBlogList();
+
+// Project blog links — navigate to Blog tab and open the post
+document.querySelectorAll('.project-blog-link').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const slug = link.dataset.blog;
+    // Switch to blog tab
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelector('[data-tab="blog"]').classList.add('active');
+    document.getElementById('blog').classList.add('active');
+    // Load the blog post
+    loadBlogPost(slug);
+  });
+});
