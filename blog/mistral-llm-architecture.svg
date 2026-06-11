@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" font-family="Arial, sans-serif">
+  <!-- Background -->
+  <rect width="900" height="420" fill="#f8f9fa" rx="12"/>
+  
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f1b2d">Mistral LLM Platform — AWS EKS Architecture</text>
+  
+  <!-- Internet/User -->
+  <rect x="30" y="170" width="100" height="60" fill="#fff" stroke="#333" stroke-width="1.5" rx="8"/>
+  <text x="80" y="195" text-anchor="middle" font-size="11" fill="#333">Users /</text>
+  <text x="80" y="210" text-anchor="middle" font-size="11" fill="#333">Internet</text>
+  
+  <!-- Arrow -->
+  <line x1="130" y1="200" x2="170" y2="200" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+  
+  <!-- EKS Cluster Box -->
+  <rect x="170" y="50" width="700" height="360" fill="none" stroke="#ff9900" stroke-width="2" stroke-dasharray="8,4" rx="12"/>
+  <text x="520" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#ff9900">AWS EKS Cluster (eu-west-1)</text>
+
+  <!-- Load Balancer -->
+  <rect x="190" y="160" width="110" height="70" fill="#fff3e0" stroke="#ff9900" stroke-width="1.5" rx="8"/>
+  <text x="245" y="185" text-anchor="middle" font-size="10" fill="#ff9900" font-weight="bold">Classic LB</text>
+  <text x="245" y="200" text-anchor="middle" font-size="9" fill="#666">Port 80</text>
+  <text x="245" y="215" text-anchor="middle" font-size="9" fill="#666">Internet-facing</text>
+
+  <!-- Arrow LB to Gateway -->
+  <line x1="300" y1="195" x2="340" y2="195" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- CPU Node Group -->
+  <rect x="330" y="90" width="210" height="220" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5" rx="8"/>
+  <text x="435" y="110" text-anchor="middle" font-size="11" font-weight="bold" fill="#1565c0">CPU Nodes (t3.medium)</text>
+  <text x="435" y="125" text-anchor="middle" font-size="9" fill="#666">On-Demand × 2</text>
+
+  <!-- Gateway Pod 1 -->
+  <rect x="350" y="140" width="170" height="50" fill="#fff" stroke="#1565c0" stroke-width="1" rx="6"/>
+  <text x="435" y="160" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565c0">FastAPI Gateway</text>
+  <text x="435" y="175" text-anchor="middle" font-size="9" fill="#666">Auth · Rate Limit · Metrics</text>
+
+  <!-- Gateway Pod 2 -->
+  <rect x="350" y="200" width="170" height="50" fill="#fff" stroke="#1565c0" stroke-width="1" rx="6"/>
+  <text x="435" y="220" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565c0">FastAPI Gateway</text>
+  <text x="435" y="235" text-anchor="middle" font-size="9" fill="#666">Auth · Rate Limit · Metrics</text>
+
+  <!-- Prometheus -->
+  <rect x="350" y="260" width="170" height="35" fill="#fff" stroke="#e65100" stroke-width="1" rx="6"/>
+  <text x="435" y="282" text-anchor="middle" font-size="10" fill="#e65100">Prometheus + Grafana</text>
+
+  <!-- Arrow Gateway to vLLM -->
+  <line x1="540" y1="195" x2="590" y2="195" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="565" y="188" text-anchor="middle" font-size="8" fill="#666">HTTP</text>
+
+  <!-- GPU Node Group -->
+  <rect x="580" y="90" width="270" height="220" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5" rx="8"/>
+  <text x="715" y="110" text-anchor="middle" font-size="11" font-weight="bold" fill="#2e7d32">GPU Node (g5.2xlarge)</text>
+  <text x="715" y="125" text-anchor="middle" font-size="9" fill="#666">Spot · NVIDIA A10G · 24GB VRAM</text>
+
+  <!-- vLLM Pod -->
+  <rect x="600" y="140" width="230" height="90" fill="#fff" stroke="#2e7d32" stroke-width="1" rx="6"/>
+  <text x="715" y="160" text-anchor="middle" font-size="11" font-weight="bold" fill="#2e7d32">vLLM Inference Server</text>
+  <text x="715" y="178" text-anchor="middle" font-size="10" fill="#333">Mistral 7B Instruct v0.3</text>
+  <text x="715" y="195" text-anchor="middle" font-size="9" fill="#666">FlashAttention2 · bfloat16</text>
+  <text x="715" y="210" text-anchor="middle" font-size="9" fill="#666">8192 ctx · 90% GPU mem</text>
+
+  <!-- GPU icon -->
+  <rect x="600" y="240" width="230" height="35" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1" rx="6"/>
+  <text x="715" y="262" text-anchor="middle" font-size="10" font-weight="bold" fill="#2e7d32">🟢 NVIDIA A10G GPU</text>
+
+  <!-- HPA -->
+  <rect x="600" y="285" width="230" height="20" fill="none" stroke="#666" stroke-width="1" stroke-dasharray="4,2" rx="4"/>
+  <text x="715" y="299" text-anchor="middle" font-size="9" fill="#666">HPA: scale 1→3 on pending requests</text>
+
+  <!-- Bottom services row -->
+  <rect x="190" y="330" width="160" height="50" fill="#fce4ec" stroke="#c62828" stroke-width="1" rx="6"/>
+  <text x="270" y="352" text-anchor="middle" font-size="10" font-weight="bold" fill="#c62828">Terraform IaC</text>
+  <text x="270" y="367" text-anchor="middle" font-size="9" fill="#666">VPC · EKS · ECR · KMS</text>
+
+  <rect x="370" y="330" width="160" height="50" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1" rx="6"/>
+  <text x="450" y="352" text-anchor="middle" font-size="10" font-weight="bold" fill="#6a1b9a">CI/CD</text>
+  <text x="450" y="367" text-anchor="middle" font-size="9" fill="#666">GitHub Actions · Canary</text>
+
+  <rect x="550" y="330" width="160" height="50" fill="#e0f2f1" stroke="#00695c" stroke-width="1" rx="6"/>
+  <text x="630" y="352" text-anchor="middle" font-size="10" font-weight="bold" fill="#00695c">Helm Chart</text>
+  <text x="630" y="367" text-anchor="middle" font-size="9" fill="#666">Deployments · HPA · Services</text>
+
+  <rect x="730" y="330" width="120" height="50" fill="#fff8e1" stroke="#f57f17" stroke-width="1" rx="6"/>
+  <text x="790" y="352" text-anchor="middle" font-size="10" font-weight="bold" fill="#f57f17">ECR</text>
+  <text x="790" y="367" text-anchor="middle" font-size="9" fill="#666">Gateway + vLLM</text>
+
+  <!-- Arrow marker -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+  </defs>
+</svg>

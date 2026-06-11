@@ -29,6 +29,13 @@ updateVisitorCount();
 // To add a new post: create a .md file in blog/ and add an entry here.
 const blogPosts = [
   {
+    slug: 'mistral-llm-platform',
+    title: 'Building a Production LLM Inference Platform on AWS EKS with vLLM',
+    date: '2026-06-09',
+    summary: 'How I designed, deployed, and load-tested a GPU-accelerated Mistral 7B inference platform with Terraform, Helm, vLLM on Spot instances, and CI/CD canary deployments.',
+    file: 'blog/mistral-llm-platform.md'
+  },
+  {
     slug: 'aws-landing-zone-banking',
     title: 'Secure Multi-Account AWS Landing Zone for French Banking Compliance',
     date: '2026-05-27',

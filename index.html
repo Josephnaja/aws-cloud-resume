@@ -158,6 +158,11 @@
         <h2>Cloud Architecture Projects</h2>
 
         <div class="job">
+          <h3>Mistral LLM Inference Platform on AWS EKS</h3>
+          <p>Architected and deployed a production-grade LLM inference platform serving Mistral 7B on AWS EKS with vLLM on NVIDIA A10G GPUs (Spot), a FastAPI gateway with authentication and rate limiting, Prometheus/Grafana observability, Helm-based deployments, Terraform IaC, and CI/CD canary pipelines with automated rollback — achieving 0% failure rate and ~3.4s inference latency.</p>
+        </div>
+
+        <div class="job">
           <h3>Secure Multi-Account AWS Landing Zone for Banking</h3>
           <p>Designed and implemented a production-grade AWS Landing Zone for French banking institutions subject to DORA and RGPD regulations. The architecture provisions seven dedicated accounts across four OUs, with centralized security monitoring, immutable audit logging (365-day S3 Object Lock), hub-and-spoke networking via Transit Gateway with route table segmentation, dual-path hybrid connectivity (Direct Connect + VPN), and cross-region disaster recovery (RTO 4h, RPO 1h).</p>
         </div>
@@ -198,6 +203,18 @@
   <section id="projects" class="tab-content">
     <div class="projects-container">
       <h2>Hands-On Projects</h2>
+
+      <article class="project-card">
+        <h3>Mistral LLM Inference Platform on AWS EKS</h3>
+        <div class="project-tags">
+          <span>EKS</span><span>Terraform</span><span>Helm</span><span>vLLM</span><span>GPU (A10G)</span><span>FastAPI</span><span>Prometheus</span><span>Docker</span><span>GitHub Actions</span><span>Spot Instances</span><span>HPA</span>
+        </div>
+        <p>Designed and deployed a production-grade LLM inference platform serving Mistral 7B Instruct on AWS EKS with GPU-accelerated inference via vLLM. The architecture features a FastAPI gateway with bearer token authentication and per-IP rate limiting, proxying OpenAI-compatible requests to a vLLM backend running on NVIDIA A10G GPUs (Spot instances for 60-70% cost savings). Infrastructure is provisioned via Terraform (VPC, EKS, ECR, managed node groups with AL2023 NVIDIA AMI), deployed with Helm charts, and monitored with Prometheus metrics and Grafana dashboards. Autoscaling is driven by a custom HPA metric (pending inference request queue depth). CI/CD pipelines implement canary deployments with automated smoke tests and rollback. Load testing with Locust validated 0% failure rate at ~3.4s p50 latency for 100-token completions.</p>
+        <div class="project-architecture">
+          <img src="blog/mistral-llm-architecture.svg" alt="Mistral LLM Platform Architecture Diagram" class="architecture-img">
+        </div>
+        <a href="#" class="project-blog-link" data-blog="mistral-llm-platform">📖 Read blog post →</a>
+      </article>
 
       <article class="project-card">
         <h3>AWS Cloud Resume Challenge</h3>
